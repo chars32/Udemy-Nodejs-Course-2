@@ -1,19 +1,14 @@
-console.log('starting app');
+console.log('starting app.js');
 
-// Use require function to bring the 'fs' and 'os' built-in modules
 const fs = require('fs');
 const os = require('os');
+// Using require to load our own file
+const notes = require('./notes.js')
 
-var user = os.userInfo();
+console.log(notes.addNote());
 
-// --- fs options ---
+console.log('Result: ', notes.add(9, -2));
 
-// 1. Option one
-// fs.appendFile('greetings.txt', 'Hello World', function(err){
-//   if(err) {
-//     console.log('Unable to write to file');
-//   }
-// });
+// var user = os.userInfo();
 
-// 2. Option two
-fs.appendFileSync('greetings.txt', `Hello ${user.username} !!!`);
+// fs.appendFileSync('greetings.txt', `Hello ${user.username}! You are ${notes.age}`);
