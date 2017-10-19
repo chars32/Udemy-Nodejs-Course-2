@@ -2,28 +2,36 @@ console.log('Starting notes.js');
 
 const fs = require('fs');
 
+// -------------- Funciones auxiliares ----------------------
+// Traemos las notas si existen en el archivo (try/catch)
+// y las parseamos (parse)
+var fetchNotes = () => {
+  try {
+    var notesString = fs.readFileSync('notes-data.json');
+    return JSON.parse(notesString);
+  } catch (e) {
+    return [];
+  }
+};
+// Guardamos las notas en formato JSON
+var saveNotes = (notes) => {
+  fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+};
+// -------------------------------------------------------------
+
+// Funcion para agregar nota
 var addNote = (title, body) => {
-  var notes = [];
+  var notes = fetchNotes();
   var note = {
     title,
     body
   };
-
-  // try and catch works to avoid errors if notes-data-json
-  // file doesnt exist
-  try {
-    var notesString = fs.readFileSync('notes-data.json');
-    notes = JSON.parse(notesString);
-  } catch (e) {
-
-  }
-   // Filtramos para que los titulos no se repitan
   var duplicateNotes = notes.filter((note) => note.title === title);
-  // Verificamos que no existan titulos repetidos y
-  // de no existir se almacena en notes y se escribe el archivo.
+
   if (duplicateNotes.length === 0){
     notes.push(note);
-    fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+    saveNotes(notes);
+    return note;
   }
 };
 
