@@ -42,9 +42,13 @@ var getAll = () => {
 var getNote = (title) => {
   console.log(`Reading ${title} notes`);
 };
-
+// Funcion para borrar nota
 var removeNote = (title) => {
-  console.log(`Removing ${title} notes`);
+  var notes = fetchNotes();
+  var filterNotes = notes.filter((note) => note.title !== title);
+  saveNotes(filterNotes);
+
+  return notes.length !== filterNotes.length;
 }
 
 module.exports = {
