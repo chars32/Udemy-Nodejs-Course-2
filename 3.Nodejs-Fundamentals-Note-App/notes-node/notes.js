@@ -1,5 +1,3 @@
-console.log('Starting notes.js');
-
 const fs = require('fs');
 
 // -------------- Funciones auxiliares ----------------------
@@ -20,9 +18,6 @@ var saveNotes = (notes) => {
 // Esta es una funcion auxiliar que sirve para formatear la respuesta
 // en la consola.
 var logNote = (note) => {
-  // Break on this line and use repl to ouput note
-  // Use read command whit --title
-  debugger;
   console.log('--');
   console.log(`Title: ${note.title}`);
   console.log(`Body: ${note.body}`);
@@ -46,7 +41,7 @@ var addNote = (title, body) => {
 };
 
 var getAll = () => {
-  console.log('Getting all notes');
+  return fetchNotes();
 };
 // Funcion para leer la nota deseada
 var getNote = (title) => {
