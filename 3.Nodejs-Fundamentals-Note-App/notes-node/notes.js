@@ -20,6 +20,9 @@ var saveNotes = (notes) => {
 // Esta es una funcion auxiliar que sirve para formatear la respuesta
 // en la consola.
 var logNote = (note) => {
+  // Break on this line and use repl to ouput note
+  // Use read command whit --title
+  debugger;
   console.log('--');
   console.log(`Title: ${note.title}`);
   console.log(`Body: ${note.body}`);
