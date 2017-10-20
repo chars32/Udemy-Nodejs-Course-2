@@ -17,6 +17,13 @@ var fetchNotes = () => {
 var saveNotes = (notes) => {
   fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 };
+// Esta es una funcion auxiliar que sirve para formatear la respuesta
+// en la consola.
+var logNote = (note) => {
+  console.log('--');
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+}
 // -------------------------------------------------------------
 
 // Funcion para agregar nota
@@ -27,7 +34,7 @@ var addNote = (title, body) => {
     body
   };
   var duplicateNotes = notes.filter((note) => note.title === title);
-
+  
   if (duplicateNotes.length === 0){
     notes.push(note);
     saveNotes(notes);
@@ -38,16 +45,17 @@ var addNote = (title, body) => {
 var getAll = () => {
   console.log('Getting all notes');
 };
-
+// Funcion para leer la nota deseada
 var getNote = (title) => {
-  console.log(`Reading ${title} notes`);
+  var notes = fetchNotes();
+  var filterGetNote = notes.filter((note) => note.title === title);
+  return filterGetNote[0];
 };
 // Funcion para borrar nota
 var removeNote = (title) => {
   var notes = fetchNotes();
   var filterNotes = notes.filter((note) => note.title !== title);
-  saveNotes(filterNotes);
-
+  
   return notes.length !== filterNotes.length;
 }
 
@@ -55,5 +63,6 @@ module.exports = {
   addNote,
   getAll,
   getNote,
-  removeNote
+  removeNote, 
+  logNote
 }
