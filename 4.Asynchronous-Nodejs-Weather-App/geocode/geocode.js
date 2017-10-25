@@ -7,8 +7,6 @@ var geocodeAddress = (address, callback) => {
     url: `http://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`,
     json: true
   }, (error, response, body)=> {
-    // cambiamos los console.log por el callback para asi poder
-    // tener control sobre estos.
     if (error) {
       callback('Unable to conncect to Google servers.');
     } else if (body.status === 'ZERO_RESULTS'){
