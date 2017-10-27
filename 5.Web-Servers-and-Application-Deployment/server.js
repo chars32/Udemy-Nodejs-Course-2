@@ -1,9 +1,13 @@
-// importamos express
 const express = require('express');
-// Inicializamos express en la variable app
-var app = express();
 
-// asi declaramos una ruta
+var app = express();
+// Usamos middleware para configurar como 
+// funcionara la app, en este caso le decimos 
+// que vaya a la carpeta public y que utilice 
+// los archivos html para ingresar a sus contenidos
+// ejemplo: localhost:3000/help.html
+app.use(express.static(__dirname + '/public'));
+
 app.get('/', (req, res) => {
   res.send({
     name: 'Carlos',
@@ -23,5 +27,7 @@ app.get('/bad', (req, res) => {
     errorMessage: 'Error handling this request'
   });
 });
-// Escuchamos a express (instanciado en app) en el puerto 3000
-app.listen(3000);
+
+app.listen(3000, () => {
+  console.log('Server is up on port 3000');
+});
