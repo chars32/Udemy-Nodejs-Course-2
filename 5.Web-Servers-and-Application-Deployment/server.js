@@ -1,25 +1,30 @@
 const express = require('express');
+const hbs = require('hbs');
 
 var app = express();
-// Usamos middleware para configurar como 
-// funcionara la app, en este caso le decimos 
-// que vaya a la carpeta public y que utilice 
-// los archivos html para ingresar a sus contenidos
-// ejemplo: localhost:3000/help.html
+// app.set sirve para asignar el
+// motor de template que queremps usar
+// en este caso handlebars 'hbs'
+app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-  res.send({
-    name: 'Carlos',
-    likes: [
-      'football',
-      'Pool'
-    ]
-  })
+  res.render('home.hbs', {
+    pageTitle: 'Home Page',
+    currentYear: new Date().getFullYear(),
+    welcomeMessage: 'Hello Amigos'
+  });
 });
 
 app.get('/about', (req, res) => {
-  res.send('About Page')
+  // Usamos res.render y pasamos como parametro el 
+  // nombre del archivo que deseamos usar, este debe
+  // estar dentro de la carpeta views.
+  res.render('about.hbs', {
+    // Le pasamos valores al template about.hbs
+    pageTitle: 'About Page',
+    currentYear: new Date().getFullYear()
+  });
 });
 
 app.get('/bad', (req, res) => {
