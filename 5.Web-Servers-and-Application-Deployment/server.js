@@ -2,34 +2,34 @@ const express = require('express');
 const hbs = require('hbs');
 
 var app = express();
-// app.set sirve para asignar el
-// motor de template que queremps usar
-// en este caso handlebars 'hbs'
+// registerPartials sirve para declarar donde estaran
+// los fragmentos de archivos hbs que se repiten en 
+// diferentes templates
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
+
+// registerHelper lo utilizamos para agregar funciones
+// que pueden aceptar argumentos(screamIt) o no y ayudan a devolver
+// un valor.
+hbs.registerHelper('getCurrentYear', () => {
+  return new Date().getFullYear();
+});
+
+hbs.registerHelper('screamIt', (text) => {
+  return text.toUpperCase();
+})
 
 app.get('/', (req, res) => {
   res.render('home.hbs', {
     pageTitle: 'Home Page',
-    currentYear: new Date().getFullYear(),
     welcomeMessage: 'Hello Amigos'
   });
 });
 
 app.get('/about', (req, res) => {
-  // Usamos res.render y pasamos como parametro el 
-  // nombre del archivo que deseamos usar, este debe
-  // estar dentro de la carpeta views.
   res.render('about.hbs', {
-    // Le pasamos valores al template about.hbs
-    pageTitle: 'About Page',
-    currentYear: new Date().getFullYear()
-  });
-});
-
-app.get('/bad', (req, res) => {
-  res.send({
-    errorMessage: 'Error handling this request'
+    pageTitle: 'About Page'
   });
 });
 
