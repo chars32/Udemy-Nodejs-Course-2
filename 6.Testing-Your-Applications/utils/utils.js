@@ -8,3 +8,16 @@ module.exports.setName = (user, fullName) => {
   user.lastName = names[1];
   return user;
 }
+
+// Modulo de funcion asincrona
+module.exports.asyncAdd = (a, b, callback) => {
+  setTimeout(function() {
+    callback(a + b);
+  }, 1000);
+};
+
+module.exports.asyncSquare = (a, callback) => {
+  setTimeout(function() {
+    callback(a*a)
+  }, 1000);
+}

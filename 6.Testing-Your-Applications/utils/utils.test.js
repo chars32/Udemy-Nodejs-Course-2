@@ -4,8 +4,6 @@ const utils = require('./utils');
 it('should add two numbers', () => {
   var res = utils.add(33, 11);
 
-  //Usamos expect en lugar de hacer la comparacion
-  //nostros mismos
   expect(res).toBe(44).toBeA('number');  
 });
 
@@ -19,29 +17,26 @@ it('should set firstName and lastName', () => {
   var user = {location: 'Philadelphia', age: 25};
   var res = utils.setName(user, 'Andrew Mead');
 
-  // console.log(res)
-  // console.log(user)
-
   expect(res).toInclude({
     firstName: 'Andrew',
     lastName: 'Mead'
   })
 });
+// Este es la estructura de la prueba para verificar
+// una funcion asincrona funcione correctamente. Se
+// le pasa el done, para que la prueba haga el calculo,
+// ya que como tiene un segundo de atraso, siempre mandaria
+// como valida la prueba.
+it('should async add two numbers', (done) => {
+  utils.asyncAdd(4,3, (sum) => {
+    expect(sum).toBe(7).toBeA('number');
+    done();
+  });
+});
 
-// it('should expect some values', () => {
-  // toBe y toNotBe son buenos para comparar numeros
-  // cadenas de texto, etx
-  // expect(12).toNotBe(14)
-
-  // pero para comparar objetos usamos toEqual y toNotEqual
-  // expect({name: 'andrew'}).toNotEqual({name: 'Andrew'});
-
-  // expect([1,2,3,4]).toExclude(0);
-  // expect({
-  //   name: 'Andrew',
-  //   age: 25,
-  //   location: 'Philadelphia'
-  // }).toInclude({
-  //   age: 23
-  // })
-// });
+it('should async square number', (done) => {
+  utils.asyncSquare(3, (square) => {
+    expect(square).toBe(9).toBeA('number');
+    done();
+  });
+});
