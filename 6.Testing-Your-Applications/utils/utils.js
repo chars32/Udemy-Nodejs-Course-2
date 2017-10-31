@@ -7,9 +7,8 @@ module.exports.setName = (user, fullName) => {
   user.firstName = names[0];
   user.lastName = names[1];
   return user;
-}
+};
 
-// Modulo de funcion asincrona
 module.exports.asyncAdd = (a, b, callback) => {
   setTimeout(function() {
     callback(a + b);
