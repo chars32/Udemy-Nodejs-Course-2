@@ -4,6 +4,7 @@ const request = require('supertest');
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 // Modificamos el beforeEach para que borre
 // todo lo que hay en Todo e inserte los 
@@ -18,6 +19,11 @@ beforeEach((done) => {
   Todo.remove({}).then(() => {
     return Todo.insertMany(todos);
   }).then(() => done());
+=======
+// Borramos los registros de Todo
+beforeEach((done) => {
+  Todo.remove({}).then(() => done());
+>>>>>>> 2ac1d1c26e37d5d49b81086999a1ef301dafcbed
 =======
 // Borramos los registros de Todo
 beforeEach((done) => {
@@ -42,11 +48,16 @@ describe('POST /todos', () => {
           return done(err)
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         // Modificamos ya que al insertar valor en beforeEach
         // se pasaba por 2 en el length, por lo tanto al find
         // se le pasa el query text para que asi se cumpla la
         // condicion de toBe(1) y toBe(text).
         Todo.find({text}).then((todos) => {
+=======
+
+        Todo.find().then((todos) => {
+>>>>>>> 2ac1d1c26e37d5d49b81086999a1ef301dafcbed
 =======
 
         Todo.find().then((todos) => {
@@ -68,6 +79,7 @@ describe('POST /todos', () => {
           return done(err);
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         // Modificamos, ya que inicialmente no esperaba nada en el 
         // length pero al insertar 2 elementos en el beforeEach el
         // length aumento a 2, es decir no debe haber mas de dos.
@@ -78,10 +90,16 @@ describe('POST /todos', () => {
         Todo.find().then((todos) => {
           expect(todos.length).toBe(0);
 >>>>>>> 2ac1d1c26e37d5d49b81086999a1ef301dafcbed
+=======
+
+        Todo.find().then((todos) => {
+          expect(todos.length).toBe(0);
+>>>>>>> 2ac1d1c26e37d5d49b81086999a1ef301dafcbed
           done();
         }).catch((e) => done(e));
       });
   });
+<<<<<<< HEAD
 <<<<<<< HEAD
 });
 // Nuevo test el cual debe de traer los todos, esto mediante
@@ -96,6 +114,8 @@ describe('GET /todos', () => {
       })
       .end(done);
   });
+=======
+>>>>>>> 2ac1d1c26e37d5d49b81086999a1ef301dafcbed
 =======
 >>>>>>> 2ac1d1c26e37d5d49b81086999a1ef301dafcbed
 });
