@@ -1,13 +1,14 @@
 const expect = require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
-// Modificamos el beforeEach para que borre
-// todo lo que hay en Todo e inserte los 
-// valores de la variable todos.
 const todos = [{
+  // pasamos una propiedad _id para efectos de
+  // realizar las pruebas 
+  _id: new ObjectID(),
   text: 'First test todo'
 }, {
   text: 'Second test todo'
@@ -20,7 +21,6 @@ beforeEach((done) => {
 });
 
 describe('POST /todos', () => {
-  // Hacemos prueba pasando un text
   it('should create a new todo', (done) => {
     var text = 'Test todo text';
 
@@ -35,10 +35,7 @@ describe('POST /todos', () => {
         if (err) {
           return done(err)
         }
-        // Modificamos ya que al insertar valor en beforeEach
-        // se pasaba por 2 en el length, por lo tanto al find
-        // se le pasa el query text para que asi se cumpla la
-        // condicion de toBe(1) y toBe(text).
+
         Todo.find({text}).then((todos) => {
           expect(todos.length).toBe(1);
           expect(todos[0].text).toBe(text);
@@ -46,7 +43,7 @@ describe('POST /todos', () => {
         }).catch((e) => done(e));
       })
   });
-  // Hacemos prueba que verifique que no se grabe si no se pasa valor
+  
   it('should not create todo with invalid body data', (done) => {
     request(app)
       .post('/todos')
@@ -56,9 +53,7 @@ describe('POST /todos', () => {
         if(err) {
           return done(err);
         }
-        // Modificamos, ya que inicialmente no esperaba nada en el 
-        // length pero al insertar 2 elementos en el beforeEach el
-        // length aumento a 2, es decir no debe haber mas de dos.
+
         Todo.find().then((todos) => {
           expect(todos.length).toBe(2);
           done();
@@ -66,8 +61,7 @@ describe('POST /todos', () => {
       });
   });
 });
-// Nuevo test el cual debe de traer los todos, esto mediante
-// el length y el toBe(2)
+
 describe('GET /todos', () => {
   it('should get all todos', (done) => {
     request(app)
@@ -79,3 +73,37 @@ describe('GET /todos', () => {
       .end(done);
   });
 });
+// Nuevos testeos cuando se quiere obtner todos los 
+// 'todos' con un id especifico
+describe('GET /todos/:id', () => {
+  it('should return todo doc', (done) => {
+    request(app)
+      .get(`/todos/${todos[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        // este res.body.todo.text es del objeto que
+        // pasamos en el findById del server.js
+        expect(res.body.todo.text).toBe(todos[0].text)
+      })
+      .end(done);
+  });
+
+  it('should return 404 if not found', (done) => {
+    // Creamos un hexId para poder usar este test 
+    // con un id que no sea el mismo pero si misma estructura
+    var hexId = new ObjectID();
+
+    request(app)
+      .get(`/todos/${hexId.toHexString()}`)
+      .expect(404)
+      .end(done)
+  });
+
+  it('should return 404 for non-object ids', (done) => {
+    request(app)
+      .get('/todos/123')
+      .expect(404)
+      .end(done)
+  });
+});
+
